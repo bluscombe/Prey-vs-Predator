@@ -6,6 +6,8 @@ public class FishMovement : MonoBehaviour
 {
     public float speed = 5.0f;
     private Vector2 screenBounds;
+    private float targetYRotation; // Target rotation around the Y-axis
+    public float rotationSpeed = 5.0f; // Speed of rotation
 
     // Start is called before the first frame update
     void Start()
@@ -14,6 +16,7 @@ public class FishMovement : MonoBehaviour
         float cameraHeight = Camera.main.orthographicSize;
         float cameraWidth = cameraHeight * Camera.main.aspect;
         screenBounds = new Vector2(cameraWidth, cameraHeight);
+        targetYRotation = transform.eulerAngles.y;
     }
 
     // Update is called once per frame
@@ -37,19 +40,18 @@ public class FishMovement : MonoBehaviour
         // Apply the position
         transform.position = pos;
 
-        // Flip and rotate the fish based on the direction
+        // Determine target Y rotation based on input direction
         if (horizontalInput > 0)
         {
-            transform.eulerAngles = new Vector3(0, 180, -verticalInput * 45); // Face right, rotate for up/down movement
+            targetYRotation = 180; // Rotate to face right
         }
         else if (horizontalInput < 0)
         {
-            transform.eulerAngles = new Vector3(0, 0, -verticalInput * 45); // Face left, rotate for up/down movement
+            targetYRotation = 0; // Rotate to face left
         }
-        else
-        {
-            // Only vertical movement, rotate based on vertical direction
-            transform.eulerAngles = new Vector3(0, transform.eulerAngles.y, -verticalInput * 45);
-        }
+
+        // Gradually rotate the fish around the Y-axis
+        Quaternion targetRotation = Quaternion.Euler(0, targetYRotation, -verticalInput * 45);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
     }
 }
