@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FishMovement : MonoBehaviour
 {
-    public float speed = 5.0f;
+    public float speed = 1.0f;
     private Vector2 screenBounds;
     private float targetYRotation; // Target rotation around the Y-axis
     public float rotationSpeed = 5.0f; // Speed of rotation
