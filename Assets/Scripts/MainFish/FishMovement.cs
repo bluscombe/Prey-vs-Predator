@@ -13,10 +13,10 @@ public class FishMovement : MonoBehaviour
     void Start()
     {
         // Calculate screen bounds
-        float cameraHeight = Camera.main.orthographicSize;
-        float cameraWidth = cameraHeight * Camera.main.aspect;
-        screenBounds = new Vector2(cameraWidth, cameraHeight);
-        targetYRotation = transform.eulerAngles.y;
+        //float cameraHeight = Camera.main.orthographicSize;
+        //float cameraWidth = cameraHeight * Camera.main.aspect;
+        //screenBounds = new Vector2(cameraWidth, cameraHeight);
+        //targetYRotation = transform.eulerAngles.y;
     }
 
     // Update is called once per frame
@@ -33,9 +33,9 @@ public class FishMovement : MonoBehaviour
         pos.x += horizontalInput * speed * Time.deltaTime;
         pos.y += verticalInput * speed * Time.deltaTime;
 
-        // Clamp the position to keep the fish within screen bounds
-        pos.x = Mathf.Clamp(pos.x, -screenBounds.x, screenBounds.x);
-        pos.y = Mathf.Clamp(pos.y, -screenBounds.y, screenBounds.y);
+        //// Clamp the position to keep the fish within screen bounds
+        //pos.x = Mathf.Clamp(pos.x, -screenBounds.x, screenBounds.x);
+        //pos.y = Mathf.Clamp(pos.y, -screenBounds.y, screenBounds.y);
 
         // Apply the position
         transform.position = pos;
