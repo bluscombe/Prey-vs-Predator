@@ -31,11 +31,16 @@ public class SharkAI : MonoBehaviour
     private float waitTime;
     public float startWaitTime = 2f;
 
+    [Header("Attack")]
+    public float attackCooldown = 2f; // Time in seconds between attacks
+    private float attackTimer;
+
     private void Start()
     {
         waitTime = startWaitTime;
         targetMoveSpot = GetRandomPosition();
         damageEffect.color = new Color(1, 0, 0, 0); // Ensure the damage effect is invisible at start
+        attackTimer = 0;
     }
 
     private void Update()
@@ -54,6 +59,11 @@ public class SharkAI : MonoBehaviour
         }
 
         CheckTransitions();
+
+        if (attackTimer > 0)
+        {
+            attackTimer -= Time.deltaTime;
+        }
     }
 
     void Patrol()
@@ -81,12 +91,34 @@ public class SharkAI : MonoBehaviour
 
     void AttackPlayer()
     {
-        // Perform the attack
-        StartCoroutine(ShowDamageEffect());
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // Reset to chase after attacking
-        currentState = SharkState.Chase;
+        // Check if the shark can attack based on cooldown and distance to the player
+        if (attackTimer <= 0 && distanceToPlayer <= attackRadius)
+        {
+            // Perform the attack
+            StartCoroutine(ShowDamageEffect());
+
+            // Assuming the player's FishMovement script is attached to the same GameObject as the player transform.
+            FishMovement playerHealth = player.GetComponent<FishMovement>();
+            if (playerHealth != null)
+            {
+                playerHealth.TakeDamage(20);
+            }
+
+            // Reset to chase after attacking
+            currentState = SharkState.Chase;
+
+            // Reset the attack timer
+            attackTimer = attackCooldown;
+        }
+        else if (distanceToPlayer > attackRadius)
+        {
+            // If the shark is too far away after attacking, consider switching back to chase or patrol state
+            currentState = SharkState.Chase; // Or Patrol, depending on your game logic
+        }
     }
+
 
     void CheckTransitions()
     {
