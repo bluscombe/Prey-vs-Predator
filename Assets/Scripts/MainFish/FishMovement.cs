@@ -24,6 +24,8 @@ public class FishMovement : MonoBehaviour
     public float zoomOutFOV = 60f; // New FOV value for zoomed-out effect
     private float originalFOV;
 
+    public bool isInvisible = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -99,35 +101,43 @@ public class FishMovement : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.CompareTag("ObjectiveItem")) // Ensure your objective item has this tag
+        if (other.gameObject.CompareTag("ObjectiveItem"))
         {
-            CollectObjective(other.gameObject);
+            ApplyInvisibilityPowerUp();
+            Destroy(other.gameObject);
         }
     }
 
-    void CollectObjective(GameObject objective)
+    void ApplyInvisibilityPowerUp()
     {
-        // Apply the power-up effect
-        ApplyPowerUp();
-
-        // Optionally, destroy the objective item or disable it
-        Destroy(objective);
+        StartCoroutine(BecomeInvisible(10));
     }
 
-    void ApplyPowerUp()
+    IEnumerator BecomeInvisible(float duration)
     {
-        // Zoom out by increasing the field of view
-        playerCamera.fieldOfView = zoomOutFOV;
+        isInvisible = true; // Set isInvisible to true to indicate the fish is now invisible
+        SetTransparency(0.2f);
 
-        // Optionally, set a timer to revert the zoom after a duration
-        StartCoroutine(RevertZoomAfterDelay(10)); // 10 seconds duration
+        yield return new WaitForSeconds(duration);
+
+        isInvisible = false; // Reset isInvisible to false after the duration
+        SetTransparency(1.0f);
     }
 
-    IEnumerator RevertZoomAfterDelay(float delay)
+    void SetTransparency(float alpha)
     {
-        yield return new WaitForSeconds(delay);
-        // Revert the camera's FOV to its original value
-        playerCamera.fieldOfView = originalFOV;
+        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        {
+            foreach (var material in renderer.materials)
+            {
+                if (material.HasProperty("_Color"))
+                {
+                    Color newColor = material.color;
+                    newColor.a = alpha;
+                    material.color = newColor;
+                }
+            }
+        }
     }
 
     void UseStamina(float amount)

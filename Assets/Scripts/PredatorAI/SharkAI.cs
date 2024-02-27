@@ -122,7 +122,23 @@ public class SharkAI : MonoBehaviour
 
     void CheckTransitions()
     {
+        FishMovement playerFishMovement = player.GetComponent<FishMovement>();
+        bool playerIsInvisible = playerFishMovement != null && playerFishMovement.isInvisible;
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // When the player is invisible, the shark should not transition to chase or attack
+        if (playerIsInvisible)
+        {
+            if (currentState != SharkState.Patrol)
+            {
+                currentState = SharkState.Patrol;
+                targetMoveSpot = GetRandomPosition(); // Ensure shark continues patrolling by setting a new target
+            }
+            return; // Skip the rest of the transition checks
+        }
+
+        // Existing transition logic when player is not invisible
         if (currentState == SharkState.Patrol && distanceToPlayer < detectionRadius)
         {
             currentState = SharkState.Chase;
@@ -141,6 +157,7 @@ public class SharkAI : MonoBehaviour
         }
     }
 
+
     void MoveTo(Vector3 target)
     {
         transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.x, target.y, transform.position.z), speed * Time.deltaTime);
@@ -158,7 +175,7 @@ public class SharkAI : MonoBehaviour
             // Adjust the rotation to align the shark's face with the target direction
             // This assumes the shark model needs to be rotated 90 degrees around the Y axis to face forward correctly
             // Adjust this value as necessary to match your model's orientation
-            Quaternion modelCorrectionRotation = Quaternion.Euler(0, 90, 0);
+            Quaternion modelCorrectionRotation = Quaternion.Euler(0, 0, 0);
             targetRotation *= modelCorrectionRotation;
 
             // Apply the corrected rotation smoothly over time

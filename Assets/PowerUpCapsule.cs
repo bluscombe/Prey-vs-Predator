@@ -3,39 +3,37 @@ using UnityEngine;
 
 public class PowerUpCapsule : MonoBehaviour
 {
-    public Camera playerCamera; // Reference to the player's camera
-    public float zoomOutFOV = 60f; // Desired FOV for the zoom-out effect
-    private float originalFOV; // To store the original FOV
-
-    private void Start()
-    {
-        if (playerCamera == null)
-        {
-            playerCamera = Camera.main; // Automatically find the main camera
-        }
-        originalFOV = playerCamera.fieldOfView; // Store the original FOV
-    }
-
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
-        { // Make sure the player object has the tag "Player"
-            ApplyPowerUp();
-            gameObject.SetActive(false); // "Pop" the capsule by disabling it
+        {
+            StartCoroutine(ApplyInvisibility(other.gameObject, 10)); // Apply invisibility for 10 seconds
+            gameObject.SetActive(false); // Disable the power-up capsule
         }
     }
 
-    void ApplyPowerUp()
+    IEnumerator ApplyInvisibility(GameObject player, float duration)
     {
-        playerCamera.fieldOfView = zoomOutFOV; // Apply the zoom-out effect
+        SetTransparency(player, 0.0f); // Make the player fully invisible
 
-        // Optionally, revert the zoom after a delay
-        StartCoroutine(RevertZoomAfterDelay(10)); // 10 seconds duration
+        yield return new WaitForSeconds(duration);
+
+        SetTransparency(player, 1.0f); // Revert the player to fully visible
     }
 
-    IEnumerator RevertZoomAfterDelay(float delay)
+    void SetTransparency(GameObject player, float alpha)
     {
-        yield return new WaitForSeconds(delay);
-        playerCamera.fieldOfView = originalFOV; // Revert FOV to original
+        foreach (var renderer in player.GetComponentsInChildren<Renderer>())
+        {
+            foreach (var material in renderer.materials)
+            {
+                if (material.HasProperty("_Color"))
+                {
+                    Color color = material.color;
+                    color.a = alpha;
+                    material.color = color;
+                }
+            }
+        }
     }
 }
