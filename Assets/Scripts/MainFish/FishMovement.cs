@@ -13,6 +13,7 @@ public class FishMovement : MonoBehaviour
 
     public Slider healthBar;
     public Slider staminaBar;
+    public Slider invisibilityTimerSlider;
     public float maxHealth = 100f;
     public float health;
     public float maxStamina = 100f;
@@ -115,14 +116,26 @@ public class FishMovement : MonoBehaviour
 
     IEnumerator BecomeInvisible(float duration)
     {
+        float endTime = Time.time + duration;
         isInvisible = true; // Set isInvisible to true to indicate the fish is now invisible
-        SetTransparency(0.2f);
+        SetTransparency(0.7f);
 
-        yield return new WaitForSeconds(duration);
+        invisibilityTimerSlider.gameObject.SetActive(true); // Activate the slider when invisibility starts
+        invisibilityTimerSlider.maxValue = duration;
+        invisibilityTimerSlider.value = duration; // Initialize the slider value to full duration
 
-        isInvisible = false; // Reset isInvisible to false after the duration
+        // Countdown the duration of the invisibility
+        while (Time.time < endTime && isInvisible)
+        {
+            invisibilityTimerSlider.value = endTime - Time.time; // Update the slider value to represent the remaining time
+            yield return null;
+        }
+
+        isInvisible = false; // Reset isInvisible to false after the duration ends
         SetTransparency(1.0f);
+        invisibilityTimerSlider.gameObject.SetActive(false); // Disable the slider when invisibility ends
     }
+
 
     void SetTransparency(float alpha)
     {
