@@ -6,14 +6,65 @@ using System.Collections;
 public class GameOverHandler : MonoBehaviour
 {
     public Image fadeImage;
+    public Text timerText; // Reference to the UI Text for the timer
     public float fadeDuration = 2f;
-
     private bool isFading = false;
+    private float startTime;
+    private bool gameIsOver = false;
+    public GameObject winScreen; // Assign in the Inspector
+    private int objectivesCollected = 0; // Tracks how many objectives the player has collected
+    public int totalObjectives = 4; // Set this to the total number of objectives in your level
+
+    void Start()
+    {
+        // Initialize the timer and hide the win screen at start
+        startTime = Time.time;
+        winScreen.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (!gameIsOver)
+        {
+            UpdateTimerUI();
+            CheckForWinCondition();
+        }
+    }
+
+    private void UpdateTimerUI()
+    {
+        float timeSinceStart = Time.time - startTime;
+        string minutes = ((int)timeSinceStart / 60).ToString("00");
+        string seconds = (timeSinceStart % 60).ToString("00");
+        timerText.text = $"{minutes}:{seconds}";
+    }
+
+    public void ObjectiveCollected()
+    {
+        objectivesCollected++;
+        // Optionally, update the UI or game state to reflect the new number of collected objectives
+    }
+
+    private void CheckForWinCondition()
+    {
+        if (objectivesCollected >= totalObjectives)
+        {
+            WinGame();
+        }
+    }
+
+    private void WinGame()
+    {
+        gameIsOver = true;
+        winScreen.SetActive(true);
+        // Optionally, stop the timer or implement additional win game logic here
+    }
 
     public void FadeToBlackAndRestart()
     {
-        if (!isFading)
+        if (!isFading && !gameIsOver)
         {
+            gameIsOver = true;
             StartCoroutine(FadeToBlackCoroutine());
         }
     }
@@ -25,16 +76,12 @@ public class GameOverHandler : MonoBehaviour
 
         while (timer <= fadeDuration)
         {
-            // Increase the alpha of the fade image over time
             fadeImage.color = new Color(0, 0, 0, timer / fadeDuration);
             timer += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure the fade image is fully opaque
         fadeImage.color = Color.black;
-
-        // Restart the game (load the current scene again)
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
