@@ -18,6 +18,7 @@ public class SharkAI : MonoBehaviour
     public float speed = 5f;
     public float rotationSpeed = 5f;
     public RectTransform biteAnimationUI;
+    public RectTransform bloodAnimationUI;
 
     [Header("Patrol")]
     public float minX;
@@ -113,10 +114,16 @@ public class SharkAI : MonoBehaviour
             // Activate the bite animation UI and play the animation
             biteAnimationUI.gameObject.SetActive(true);
             biteAnimationUI.GetComponent<Animator>().SetTrigger("PlayBiteAnimation");
-            StartCoroutine(HideBiteAnimationUI(0.7f));
+            StartCoroutine(HideBiteAnimationUI(0.6f));
 
-            // Perform the attack
-            StartCoroutine(ShowDamageEffect());
+            //Blood animation
+            StartCoroutine(ShowAndFadeOutBlood());
+
+            //// Perform the attack
+            //StartCoroutine(ShowDamageEffect());
+
+            // Slow down the shark for 2 seconds to a specified slower speed
+            StartCoroutine(SlowDown(2f, speed * 0.5f)); // Example: slow down to half speed for 2 seconds
 
             // Assuming the player's FishMovement script is attached to the same GameObject as the player transform.
             FishMovement playerHealth = player.GetComponent<FishMovement>();
@@ -211,13 +218,45 @@ public class SharkAI : MonoBehaviour
         biteAnimationUI.gameObject.SetActive(false); // Then hide the UI element
     }
 
-
-    IEnumerator ShowDamageEffect()
+    private IEnumerator SlowDown(float duration, float slowSpeed)
     {
-        damageEffect.gameObject.SetActive(true); // Activate the image object before changing its color
-        damageEffect.color = new Color(1, 0, 0, 0.5f); // Red with half transparency
-        yield return new WaitForSeconds(0.5f);
-        damageEffect.color = new Color(1, 0, 0, 0); // Back to transparent
-        damageEffect.gameObject.SetActive(false); // Optionally deactivate the image object after the effect
+        float originalSpeed = speed; // Store the original speed
+        speed = slowSpeed; // Reduce the shark's speed to the specified slow speed
+
+        yield return new WaitForSeconds(duration); // Wait for the duration of the slow down
+
+        speed = originalSpeed; // Restore the original speed
     }
+
+    private IEnumerator ShowAndFadeOutBlood()
+    {
+        yield return new WaitForSeconds(0.1f);
+        // Activate the blood animation UI
+        bloodAnimationUI.gameObject.SetActive(true);
+
+        // Fade out the blood
+        Image bloodImage = bloodAnimationUI.GetComponent<Image>();
+        float duration = 2.0f; // Duration of fade
+        float elapsed = 0;
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float alpha = Mathf.Lerp(1, 0, elapsed / duration);
+            bloodImage.color = new Color(bloodImage.color.r, bloodImage.color.g, bloodImage.color.b, alpha);
+            yield return null;
+        }
+
+        // Optionally deactivate or reset the blood effect for future use
+        bloodAnimationUI.gameObject.SetActive(false);
+    }
+
+
+    //IEnumerator ShowDamageEffect()
+    //{
+    //    damageEffect.gameObject.SetActive(true); // Activate the image object before changing its color
+    //    damageEffect.color = new Color(1, 0, 0, 0.5f); // Red with half transparency
+    //    yield return new WaitForSeconds(0.5f);
+    //    damageEffect.color = new Color(1, 0, 0, 0); // Back to transparent
+    //    damageEffect.gameObject.SetActive(false); // Optionally deactivate the image object after the effect
+    //}
 }
