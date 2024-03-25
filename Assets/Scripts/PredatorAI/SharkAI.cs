@@ -17,6 +17,7 @@ public class SharkAI : MonoBehaviour
     public Image damageEffect;
     public float speed = 5f;
     public float rotationSpeed = 5f;
+    public RectTransform biteAnimationUI;
 
     [Header("Patrol")]
     public float minX;
@@ -96,6 +97,24 @@ public class SharkAI : MonoBehaviour
         // Check if the shark can attack based on cooldown and distance to the player
         if (attackTimer <= 0 && distanceToPlayer <= attackRadius)
         {
+
+            // Convert world position of the shark bite to screen position
+            Vector2 screenPoint = Camera.main.WorldToScreenPoint(player.position);
+
+            // Assuming the canvas is using Screen Space - Overlay or Screen Space - Camera
+            // Convert screen position to local position in the canvas
+            Vector2 localPoint;
+            RectTransform canvasRectTransform = biteAnimationUI.GetComponentInParent<Canvas>().GetComponent<RectTransform>();
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(canvasRectTransform, screenPoint, Camera.main, out localPoint);
+
+            // Set the local position of the biteAnimationUI
+            biteAnimationUI.anchoredPosition = localPoint;
+
+            // Activate the bite animation UI and play the animation
+            biteAnimationUI.gameObject.SetActive(true);
+            biteAnimationUI.GetComponent<Animator>().SetTrigger("PlayBiteAnimation");
+            StartCoroutine(HideBiteAnimationUI(0.7f));
+
             // Perform the attack
             StartCoroutine(ShowDamageEffect());
 
@@ -172,9 +191,7 @@ public class SharkAI : MonoBehaviour
             // Determine the target rotation based on the target direction
             Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
 
-            // Adjust the rotation to align the shark's face with the target direction
-            // This assumes the shark model needs to be rotated 90 degrees around the Y axis to face forward correctly
-            // Adjust this value as necessary to match your model's orientation
+            //Orientation
             Quaternion modelCorrectionRotation = Quaternion.Euler(0, 0, 0);
             targetRotation *= modelCorrectionRotation;
 
@@ -187,6 +204,13 @@ public class SharkAI : MonoBehaviour
     {
         return new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY), transform.position.z);
     }
+
+    IEnumerator HideBiteAnimationUI(float delay)
+    {
+        yield return new WaitForSeconds(delay); // Wait for the animation to complete
+        biteAnimationUI.gameObject.SetActive(false); // Then hide the UI element
+    }
+
 
     IEnumerator ShowDamageEffect()
     {
