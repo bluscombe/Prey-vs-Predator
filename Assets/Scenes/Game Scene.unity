@@ -8415,6 +8415,7 @@ MonoBehaviour:
   rotationSpeed: 2
   biteAnimationUI: {fileID: 315002578}
   bloodAnimationUI: {fileID: 1743873193}
+  fieldOfViewAngle: 150
   minX: 32
   maxX: -32
   minY: 2
@@ -8423,6 +8424,11 @@ MonoBehaviour:
   attackRadius: 2
   startWaitTime: 0.3
   attackCooldown: 2
+  facingDuration: 1
+  prepareToChargeDuration: 2
+  chargeSpeed: 10
+  chargeCooldown: 5
+  chargeDuration: 1
 --- !u!4 &1602708972 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6446600628496410579, guid: 2fb93ff3c1250a74ca5f53a6bc162675, type: 3}

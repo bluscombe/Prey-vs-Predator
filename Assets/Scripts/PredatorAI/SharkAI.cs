@@ -8,6 +8,9 @@ public class SharkAI : MonoBehaviour
     {
         Patrol,
         Chase,
+        Facing,
+        PreparingToCharge,
+        Charge,
         Attack
     }
 
@@ -19,6 +22,9 @@ public class SharkAI : MonoBehaviour
     public float rotationSpeed = 5f;
     public RectTransform biteAnimationUI;
     public RectTransform bloodAnimationUI;
+
+    [Header("Sight")]
+    public float fieldOfViewAngle = 110f; // Angle for the field of view
 
     [Header("Patrol")]
     public float minX;
@@ -36,6 +42,19 @@ public class SharkAI : MonoBehaviour
     [Header("Attack")]
     public float attackCooldown = 2f; // Time in seconds between attacks
     private float attackTimer;
+
+    [Header("Charge Preparation")]
+    public float facingDuration = 1f; // How long to face the player before preparing to charge
+    public float prepareToChargeDuration = 2f; // How long to pause before actually charging
+    private float facingTimer = 0; // Timer for the facing state
+    private float prepareToChargeTimer = 0; // Timer for the preparing to charge state
+
+    [Header("Charge")]
+    public float chargeSpeed = 10f; // Speed of the shark when charging
+    public float chargeCooldown = 5f; // Time before shark can charge again
+    public float chargeDuration = 1f; // How long the shark charges
+    private float chargeTimer = 0; // Timer to track charge duration
+    private float nextChargeTime = 0; // When the shark is allowed to charge again
 
     private void Start()
     {
@@ -55,6 +74,15 @@ public class SharkAI : MonoBehaviour
             case SharkState.Chase:
                 ChasePlayer();
                 break;
+            case SharkState.Facing:
+                FacePlayer();
+                break;
+            case SharkState.PreparingToCharge:
+                PrepareToCharge();
+                break;
+            case SharkState.Charge:
+                ChargePlayer();
+                break;
             case SharkState.Attack:
                 AttackPlayer();
                 break;
@@ -66,6 +94,38 @@ public class SharkAI : MonoBehaviour
         {
             attackTimer -= Time.deltaTime;
         }
+
+        // Transition conditions
+        if (currentState == SharkState.Patrol && IsPlayerInFieldOfView())
+        {
+            currentState = SharkState.Chase;
+        }
+        else if (currentState == SharkState.Chase && !IsPlayerInFieldOfView())
+        {
+            // Lost sight of the player; consider going back to Patrol or implementing a "search" behavior
+            currentState = SharkState.Patrol;
+        }
+    }
+
+    bool IsPlayerInFieldOfView()
+    {
+        Vector3 directionToPlayer = player.position - transform.position;
+        float angle = Vector3.Angle(directionToPlayer, transform.forward);
+
+        if (angle < fieldOfViewAngle * 0.5f && directionToPlayer.magnitude < detectionRadius)
+        {
+            // Perform an additional raycast check to ensure there are no obstacles blocking the view
+            RaycastHit hit;
+            if (Physics.Raycast(transform.position, directionToPlayer.normalized, out hit, detectionRadius))
+            {
+                // Check if the hit object is the player
+                if (hit.transform == player)
+                {
+                    return true; // Player is within field of view and no obstacles are blocking the view
+                }
+            }
+        }
+        return false;
     }
 
     void Patrol()
@@ -88,7 +148,15 @@ public class SharkAI : MonoBehaviour
 
     void ChasePlayer()
     {
-        MoveTo(player.position);
+        float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+        if (distanceToPlayer > attackRadius && distanceToPlayer < detectionRadius && Time.time >= nextChargeTime)
+        {
+            currentState = SharkState.Facing;
+        }
+        else
+        {
+            MoveTo(player.position); // Continue chasing normally if not ready to face/charge
+        }
     }
 
     void AttackPlayer()
@@ -145,6 +213,88 @@ public class SharkAI : MonoBehaviour
         }
     }
 
+    void FacePlayer()
+    {
+        RotateTowards(player.position); // Ensure shark is facing the player
+
+        if (IsFacingPlayer())
+        {
+            facingTimer += Time.deltaTime;
+            if (facingTimer >= facingDuration)
+            {
+                // Randomly decide whether to charge or not after facing
+                if (Random.value > 0.5f) // 50% chance to proceed with charge
+                {
+                    currentState = SharkState.PreparingToCharge;
+                }
+                else
+                {
+                    currentState = SharkState.Chase; // Resume chasing without charging
+                }
+                facingTimer = 0; // Reset for next time
+            }
+        }
+    }
+
+    // Utility to check if the shark is facing towards the player within a certain angle threshold
+    bool IsFacingPlayer()
+    {
+        Vector3 dirToPlayer = (player.position - transform.position).normalized;
+        float dotProduct = Vector3.Dot(transform.forward, dirToPlayer);
+        return dotProduct > 0.95; // Adjust this threshold as necessary
+    }
+
+    void PrepareToCharge()
+    {
+        if (prepareToChargeTimer < prepareToChargeDuration)
+        {
+            prepareToChargeTimer += Time.deltaTime;
+        }
+        else
+        {
+            prepareToChargeTimer = 0;
+            // Only transition to Charge state sometimes; other times, just resume chasing
+            if (Random.value > 0.3f) // 70% chance to charge
+            {
+                currentState = SharkState.Charge;
+                // Randomize charge speed for unpredictability
+                chargeSpeed = Random.Range(8f, 12f); // Example range, adjust as needed
+            }
+            else
+            {
+                currentState = SharkState.Chase; // Opt to not charge this time
+            }
+        }
+    }
+
+    void ChargePlayer()
+    {
+        if (chargeTimer <= chargeDuration)
+        {
+            MoveTo(player.position, chargeSpeed); // Execute the charge
+            chargeTimer += Time.deltaTime;
+
+            // Implement a contact check with the player within the attack radius
+            if (Vector3.Distance(transform.position, player.position) <= attackRadius)
+            {
+                // Implement attack logic here
+                currentState = SharkState.Attack; // Switch to attack state
+                nextChargeTime = Time.time + chargeCooldown; // Reset the cooldown for the next charge
+                chargeTimer = 0; // Reset charge timer
+            }
+        }
+        else
+        {
+            currentState = SharkState.Chase; // Return to chase if the charge finished
+            chargeTimer = 0; // Reset the charge timer for the next charge
+        }
+    }
+
+    void MoveTo(Vector3 target, float currentSpeed)
+    {
+        transform.position = Vector3.MoveTowards(transform.position, new Vector3(target.x, target.y, transform.position.z), currentSpeed * Time.deltaTime);
+        RotateTowards(target);
+    }
 
     void CheckTransitions()
     {
