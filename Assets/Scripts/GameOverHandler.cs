@@ -14,6 +14,7 @@ public class GameOverHandler : MonoBehaviour
     //public GameObject winScreen; // Assign in the Inspector
     private int objectivesCollected = 0; // Tracks how many objectives the player has collected
     public int totalObjectives = 4; // Set this to the total number of objectives in your level
+    public GameObject objective;
 
     void Start()
     {
@@ -28,6 +29,9 @@ public class GameOverHandler : MonoBehaviour
         {
             UpdateTimerUI();
             CheckForWinCondition();
+            if ((Time.time - startTime) % 30 == 0){
+                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+            }
         }
     }
 
