@@ -44,8 +44,8 @@ public class SharkAI : MonoBehaviour
     private float attackTimer;
 
     [Header("Charge Preparation")]
-    public float facingDuration = 1f; // How long to face the player before preparing to charge
-    public float prepareToChargeDuration = 2f; // How long to pause before actually charging
+    public float facingDuration = 0.5f; // How long to face the player before preparing to charge
+    public float prepareToChargeDuration = 1f; // How long to pause before actually charging
     private float facingTimer = 0; // Timer for the facing state
     private float prepareToChargeTimer = 0; // Timer for the preparing to charge state
 
