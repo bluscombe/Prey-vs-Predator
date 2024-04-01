@@ -5965,8 +5965,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 494781534f611458489e6e8c4d4c30c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 7
-  sprintSpeed: 15
+  speed: 3
+  sprintSpeed: 5
   rotationSpeed: 5
   healthBar: {fileID: 1159465163}
   staminaBar: {fileID: 799580602}
@@ -5975,7 +5975,7 @@ MonoBehaviour:
   health: 0
   maxStamina: 100
   stamina: 0
-  staminaRecoveryRate: 50
+  staminaRecoveryRate: 10
   sprintStaminaUseRate: 15
   playerCamera: {fileID: 963194227}
   zoomOutFOV: 60
@@ -6928,6 +6928,7 @@ GameObject:
   - component: {fileID: 963194226}
   - component: {fileID: 963194230}
   - component: {fileID: 963194231}
+  - component: {fileID: 963194232}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -7131,6 +7132,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &963194232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 963194225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a42feb62f5c48d290d218a01e49d35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fishTransform: {fileID: 491729948}
+  zoomOutFactor: 1.2
 --- !u!1 &989308683
 GameObject:
   m_ObjectHideFlags: 0
