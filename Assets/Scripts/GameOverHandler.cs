@@ -29,8 +29,10 @@ public class GameOverHandler : MonoBehaviour
         {
             UpdateTimerUI();
             CheckForWinCondition();
-            if ((Time.time - startTime) % 30 == 0){
-                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+            if ((Time.time - startTime) % 10 == 0){
+                for(int i = 0; i < 30; i++){
+                    GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+                }
             }
         }
     }
@@ -45,6 +47,7 @@ public class GameOverHandler : MonoBehaviour
 
     public void ObjectiveCollected()
     {
+        print("objective got!!");
         objectivesCollected++;
         // Optionally, update the UI or game state to reflect the new number of collected objectives
     }

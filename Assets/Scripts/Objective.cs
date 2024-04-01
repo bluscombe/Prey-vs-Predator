@@ -33,7 +33,7 @@ public class Objective : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("Player") && !isCollected) // Make sure the collider is tagged with "Player"
         {
