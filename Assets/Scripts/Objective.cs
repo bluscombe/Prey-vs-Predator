@@ -37,7 +37,6 @@ public class Objective : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && !isCollected) // Make sure the collider is tagged with "Player"
         {
-            print("obj is collected");
             isCollected = true;
             GameOverHandler.objectivesCollected++; // Notify the GameOverHandler that an objective has been collected
         }

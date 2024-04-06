@@ -5,6 +5,7 @@ using System.Collections;
 
 public class GameOverHandler : MonoBehaviour
 {
+    public GameObject player;
     public Image fadeImage;
     public Text timerText; // Reference to the UI Text for the timer
     public float fadeDuration = 2f;
@@ -13,14 +14,18 @@ public class GameOverHandler : MonoBehaviour
     private bool gameIsOver = false;
     //public GameObject winScreen; // Assign in the Inspector
     public static int objectivesCollected = 0; // Tracks how many objectives the player has collected
-    public int totalObjectives = 4; // Set this to the total number of objectives in your level
+    public int totalObjectives = 5; // Set this to the total number of objectives in your level
     public GameObject objective;
+    public int spawnRate = 3;
+    public int spawnTime = 15;
 
     void Start()
     {
         // Initialize the timer and hide the win screen at start
         startTime = Time.time;
         //winScreen.SetActive(false);
+
+        InvokeRepeating("SpawnObj", 0, spawnTime);
     }
 
     void Update()
@@ -29,12 +34,28 @@ public class GameOverHandler : MonoBehaviour
         {
             UpdateTimerUI();
             CheckForWinCondition();
-            if ((Time.time - startTime) % 10 == 0){
-                for(int i = 0; i < 30; i++){
-                    GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
-                }
+        }
+    }
+
+    private void SpawnObj()
+    {
+        print("obj spawned");
+        if(player.GetComponent<Transform>().position.x <= 0 && player.GetComponent<Transform>().position.x > -30){
+            for(int i = 0; i < spawnRate; i++){
+                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(20f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
             }
         }
+        else if(player.GetComponent<Transform>().position.x > 0 && player.GetComponent<Transform>().position.x < 30){
+            for(int i = 0; i < spawnRate; i++){
+                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, -20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+             }
+        }
+        else{
+            for(int i = 0; i < spawnRate; i++){
+                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-20f, 20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+            }
+        }
+        print(objectivesCollected);
     }
 
     private void UpdateTimerUI()
