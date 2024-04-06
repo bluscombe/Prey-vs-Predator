@@ -12,7 +12,7 @@ public class GameOverHandler : MonoBehaviour
     private float startTime;
     private bool gameIsOver = false;
     //public GameObject winScreen; // Assign in the Inspector
-    private int objectivesCollected = 0; // Tracks how many objectives the player has collected
+    public static int objectivesCollected = 0; // Tracks how many objectives the player has collected
     public int totalObjectives = 4; // Set this to the total number of objectives in your level
     public GameObject objective;
 
@@ -45,13 +45,6 @@ public class GameOverHandler : MonoBehaviour
         timerText.text = $"{minutes}:{seconds}";
     }
 
-    public void ObjectiveCollected()
-    {
-        print("objective got!!");
-        objectivesCollected++;
-        // Optionally, update the UI or game state to reflect the new number of collected objectives
-    }
-
     private void CheckForWinCondition()
     {
         if (objectivesCollected >= totalObjectives)
@@ -62,6 +55,7 @@ public class GameOverHandler : MonoBehaviour
 
     private void WinGame()
     {
+        print("gg");
         gameIsOver = true;
         //winScreen.SetActive(true);
         // Optionally, stop the timer or implement additional win game logic here

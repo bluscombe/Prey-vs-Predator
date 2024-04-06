@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Objective : MonoBehaviour
 {
-    public GameOverHandler gameOverHandler; // Reference to your GameOverHandler script
+    // public GameOverHandler gameOverHandler; // Reference to your GameOverHandler script
     private bool isCollected = false;
     private float lerpTime = 1.0f; // Time it takes to lerp to 0
     private Vector3 originalScale; // To store the original scale
@@ -37,8 +37,9 @@ public class Objective : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && !isCollected) // Make sure the collider is tagged with "Player"
         {
+            print("obj is collected");
             isCollected = true;
-            gameOverHandler.ObjectiveCollected(); // Notify the GameOverHandler that an objective has been collected
+            GameOverHandler.objectivesCollected++; // Notify the GameOverHandler that an objective has been collected
         }
     }
 }
