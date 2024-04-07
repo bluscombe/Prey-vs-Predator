@@ -23,6 +23,8 @@ public class SharkAI : MonoBehaviour
     public RectTransform biteAnimationUI;
     public RectTransform bloodAnimationUI;
 
+    private Animator sharkAnimator;
+
     [Header("Sight")]
     public float fieldOfViewAngle = 110f; // Angle for the field of view
 
@@ -62,6 +64,9 @@ public class SharkAI : MonoBehaviour
         targetMoveSpot = GetRandomPosition();
         damageEffect.color = new Color(1, 0, 0, 0); // Ensure the damage effect is invisible at start
         attackTimer = 0;
+
+        // Initialize the Animator component
+        sharkAnimator = GetComponent<Animator>();
     }
 
     private void Update()
@@ -86,6 +91,15 @@ public class SharkAI : MonoBehaviour
             case SharkState.Attack:
                 AttackPlayer();
                 break;
+        }
+
+        if (currentState == SharkState.Patrol || currentState == SharkState.Chase)
+        {
+            sharkAnimator.SetBool("IsSwimming", true);
+        }
+        else
+        {
+            sharkAnimator.SetBool("IsSwimming", false);
         }
 
         CheckTransitions();
