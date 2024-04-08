@@ -8,6 +8,7 @@ public class GameOverHandler : MonoBehaviour
     public GameObject player;
     public Image fadeImage;
     public Text timerText; // Reference to the UI Text for the timer
+    public Text objCollectedText;
     public float fadeDuration = 2f;
     private bool isFading = false;
     private float startTime;
@@ -32,6 +33,7 @@ public class GameOverHandler : MonoBehaviour
     {
         if (!gameIsOver)
         {
+            objCollectedText.text = $"{objectivesCollected}/{totalObjectives}";
             UpdateTimerUI();
             CheckForWinCondition();
         }
