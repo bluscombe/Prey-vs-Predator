@@ -9,7 +9,6 @@ public class SharkAI : MonoBehaviour
         Patrol,
         Chase,
         Facing,
-        PreparingToCharge,
         Charge,
         Attack
     }
@@ -49,7 +48,7 @@ public class SharkAI : MonoBehaviour
     public float facingDuration = 0.5f; // How long to face the player before preparing to charge
     public float prepareToChargeDuration = 1f; // How long to pause before actually charging
     private float facingTimer = 0; // Timer for the facing state
-    private float prepareToChargeTimer = 0; // Timer for the preparing to charge state
+    //private float prepareToChargeTimer = 0; // Timer for the preparing to charge state
 
     [Header("Charge")]
     public float chargeSpeed = 10f; // Speed of the shark when charging
@@ -81,9 +80,6 @@ public class SharkAI : MonoBehaviour
                 break;
             case SharkState.Facing:
                 FacePlayer();
-                break;
-            case SharkState.PreparingToCharge:
-                PrepareToCharge();
                 break;
             case SharkState.Charge:
                 ChargePlayer();
@@ -233,7 +229,7 @@ public class SharkAI : MonoBehaviour
                 // Randomly decide whether to charge or not after facing
                 if (Random.value > 0.5f) // 50% chance to proceed with charge
                 {
-                    currentState = SharkState.PreparingToCharge;
+                    currentState = SharkState.Charge;
                 }
                 else
                 {
@@ -250,29 +246,6 @@ public class SharkAI : MonoBehaviour
         Vector3 dirToPlayer = (player.position - transform.position).normalized;
         float dotProduct = Vector3.Dot(transform.forward, dirToPlayer);
         return dotProduct > 0.95; // Adjust this threshold as necessary
-    }
-
-    void PrepareToCharge()
-    {
-        if (prepareToChargeTimer < prepareToChargeDuration)
-        {
-            prepareToChargeTimer += Time.deltaTime;
-        }
-        else
-        {
-            prepareToChargeTimer = 0;
-            // Only transition to Charge state sometimes; other times, just resume chasing
-            if (Random.value > 0.3f) // 70% chance to charge
-            {
-                currentState = SharkState.Charge;
-                // Randomize charge speed for unpredictability
-                chargeSpeed = Random.Range(8f, 12f); // Example range, adjust as needed
-            }
-            else
-            {
-                currentState = SharkState.Chase; // Opt to not charge this time
-            }
-        }
     }
 
     void ChargePlayer()
@@ -407,14 +380,4 @@ public class SharkAI : MonoBehaviour
         // Optionally deactivate or reset the blood effect for future use
         bloodAnimationUI.gameObject.SetActive(false);
     }
-
-
-    //IEnumerator ShowDamageEffect()
-    //{
-    //    damageEffect.gameObject.SetActive(true); // Activate the image object before changing its color
-    //    damageEffect.color = new Color(1, 0, 0, 0.5f); // Red with half transparency
-    //    yield return new WaitForSeconds(0.5f);
-    //    damageEffect.color = new Color(1, 0, 0, 0); // Back to transparent
-    //    damageEffect.gameObject.SetActive(false); // Optionally deactivate the image object after the effect
-    //}
 }
