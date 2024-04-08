@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 7557630854700857738}
   - component: {fileID: 113135373596119911}
   - component: {fileID: 1081834818776875608}
-  - component: {fileID: 1517687811387131744}
-  - component: {fileID: 2606050397514555966}
+  - component: {fileID: 3934850757477131747}
+  - component: {fileID: -8923676860372238393}
   m_Layer: 0
   m_Name: friendlyFish
   m_TagString: Untagged
@@ -113,7 +113,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 14.05, y: 7.87}
   m_EdgeRadius: 0
---- !u!114 &1517687811387131744
+--- !u!114 &3934850757477131747
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -125,23 +125,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67caeadf686674aa0b9a38da9474a160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &2606050397514555966
-MonoBehaviour:
+  alignmentWeight: 1
+  cohesionWeight: 1
+  separationWeight: 1
+  followWeight: 2
+  separationDistance: 1
+--- !u!50 &-8923676860372238393
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7962717879960099731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdbab2ef79bad45c7994e3fcf89c4901, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  minVelocity: 5
-  maxVelocity: 20
-  randomness: 1
-  flockSize: 20
-  prefab: {fileID: 7962717879960099731}
-  chasee: {fileID: 0}
-  flockCenter: {x: 0, y: 0, z: 0}
-  flockVelocity: {x: 0, y: 0, z: 0}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0

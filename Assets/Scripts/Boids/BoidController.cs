@@ -17,7 +17,7 @@ public class BoidController : MonoBehaviour
 
     void Start()
     {
-        // Ensure the collider is attached and not null
+        boids = new GameObject[flockSize];
         BoxCollider2D collider = GetComponent<BoxCollider2D>();
         if (collider == null)
         {
@@ -25,7 +25,6 @@ public class BoidController : MonoBehaviour
             return;
         }
 
-        boids = new GameObject[flockSize];
         for (var i = 0; i < flockSize; i++)
         {
             Vector3 position = new Vector3(
@@ -33,14 +32,23 @@ public class BoidController : MonoBehaviour
                 Random.value * collider.bounds.size.y,
                 0) - collider.bounds.extents;
 
-            position += collider.bounds.center; // Offset by the collider's center
+            position += transform.position; // Ensure the position is relative to the BoidController object
 
-            GameObject boid = Instantiate(prefab, position, Quaternion.identity);
+            GameObject boid = Instantiate(prefab, position, Quaternion.identity) as GameObject;
+            if (boid == null)
+            {
+                Debug.LogError("Boid instantiation failed");
+                continue;
+            }
+
+            boid.transform.parent = transform;
             boid.GetComponent<BoidFlocking>().SetController(gameObject);
             boids[i] = boid;
+
+            Debug.Log("Spawned boid at: " + boid.transform.position);
+
         }
     }
-
 
 
     void Update()

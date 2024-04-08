@@ -5721,6 +5721,7 @@ MonoBehaviour:
   speed: 5
   sprintSpeed: 7
   rotationSpeed: 5
+  boidController: {fileID: 0}
   healthBar: {fileID: 1159465163}
   staminaBar: {fileID: 799580602}
   invisibilityTimerSlider: {fileID: 989308685}

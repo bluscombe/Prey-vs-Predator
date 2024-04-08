@@ -50,11 +50,25 @@ public class FishMovement : MonoBehaviour
         healthBar.value = maxHealth;
         staminaBar.value = maxStamina;
 
-        // If not assigned, try to find the BoidController in the scene
-        if (boidController == null)
-        {
-            boidController = FindObjectOfType<BoidController>();
-        }
+        //// If not assigned, try to find the BoidController in the scene
+        //if (boidController == null)
+        //{
+        //    boidController = FindObjectOfType<BoidController>();
+        //}
+
+        //if (boidController == null)
+        //{
+        //    Debug.LogError("BoidController not assigned on " + gameObject.name);
+        //    this.enabled = false; // Disable script to prevent further errors
+        //    return;
+        //}
+
+        //if (boidController.chasee == null)
+        //{
+        //    Debug.LogError("Chasee not assigned on BoidController for " + gameObject.name);
+        //    this.enabled = false; // Disable script to prevent further errors
+        //    return;
+        //}
     }
 
     // Update is called once per frame
@@ -104,14 +118,14 @@ public class FishMovement : MonoBehaviour
             RecoverStamina(Time.deltaTime * staminaRecoveryRate);
         }
 
-        // Apply the fish's current position to the chasee object
-        if (boidController != null && boidController.chasee != null)
-        {
-            boidController.chasee.transform.position = this.transform.position;
-        }
+        //// Apply the fish's current position to the chasee object
+        //if (boidController != null && boidController.chasee != null)
+        //{
+        //    boidController.chasee.transform.position = this.transform.position;
+        //}
 
-        healthBar.value = health;
-        staminaBar.value = stamina;
+        //healthBar.value = health;
+        //staminaBar.value = stamina;
     }
 
     void OnTriggerEnter(Collider other)
