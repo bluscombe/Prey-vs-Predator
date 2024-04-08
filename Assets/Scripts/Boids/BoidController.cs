@@ -17,24 +17,23 @@ public class BoidController : MonoBehaviour
 
     void Start()
     {
+        // Ensure the collider is attached and not null
+        BoxCollider2D collider = GetComponent<BoxCollider2D>();
+        if (collider == null)
+        {
+            Debug.LogError("BoxCollider2D is not attached to " + gameObject.name);
+            return;
+        }
+
         boids = new GameObject[flockSize];
         for (var i = 0; i < flockSize; i++)
         {
-            MeshCollider meshCollider = GetComponent<MeshCollider>();
-            if (meshCollider == null)
-            {
-                Debug.LogError("MeshCollider component not found on 'FishV4' GameObject. Please add one.");
-                return;
-            }
-
-            // Use the bounds of the MeshCollider to find a random position
             Vector3 position = new Vector3(
-                Random.value * meshCollider.bounds.size.x,
-                Random.value * meshCollider.bounds.size.y,
-                Random.value * meshCollider.bounds.size.z
-                ) - meshCollider.bounds.extents;
+                Random.value * collider.bounds.size.x,
+                Random.value * collider.bounds.size.y,
+                0) - collider.bounds.extents;
 
-            position = transform.TransformPoint(position); // Transform to world space
+            position += collider.bounds.center; // Offset by the collider's center
 
             GameObject boid = Instantiate(prefab, position, Quaternion.identity);
             boid.GetComponent<BoidFlocking>().SetController(gameObject);
@@ -43,18 +42,35 @@ public class BoidController : MonoBehaviour
     }
 
 
+
     void Update()
     {
         Vector3 theCenter = Vector3.zero;
         Vector3 theVelocity = Vector3.zero;
 
+        int realFlockSize = 0; // Keep track of non-null boids
+
         foreach (GameObject boid in boids)
         {
-            theCenter = theCenter + boid.transform.localPosition;
-            theVelocity = theVelocity + (Vector3)boid.GetComponent<Rigidbody2D>().velocity;
+            // Check if boid is not null before accessing its properties
+            if (boid != null)
+            {
+                theCenter += boid.transform.position;
+                Rigidbody2D rb = boid.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    theVelocity += (Vector3)rb.velocity;
+                    realFlockSize++; // Increment for each non-null boid
+                }
+            }
         }
 
-        flockCenter = theCenter / (flockSize);
-        flockVelocity = theVelocity / (flockSize);
+        // Avoid division by zero if realFlockSize is zero
+        if (realFlockSize > 0)
+        {
+            flockCenter = theCenter / realFlockSize;
+            flockVelocity = theVelocity / realFlockSize;
+        }
     }
+
 }

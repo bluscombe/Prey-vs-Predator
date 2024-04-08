@@ -42,20 +42,39 @@ public class BoidFlocking : MonoBehaviour
 
     private Vector3 Calc()
     {
-        Vector3 randomize = new Vector3((Random.value * 2) - 1, (Random.value * 2) - 1, (Random.value * 2) - 1);
+        if (Controller == null)
+        {
+            Debug.LogError("Controller is not set for " + gameObject.name);
+            return Vector3.zero;
+        }
 
-        randomize.Normalize();
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        if (rb == null)
+        {
+            Debug.LogError("Rigidbody2D is not attached to " + gameObject.name);
+            return Vector3.zero;
+        }
+
         BoidController boidController = Controller.GetComponent<BoidController>();
-        Vector3 flockCenter = boidController.flockCenter;
-        Vector3 flockVelocity = boidController.flockVelocity;
-        Vector3 follow = chasee.transform.position;
+        if (boidController == null)
+        {
+            Debug.LogError("BoidController component not found on controller object.");
+            return Vector3.zero;
+        }
 
-        flockCenter = flockCenter - transform.position;
-        flockVelocity = flockVelocity - (Vector3)GetComponent<Rigidbody2D>().velocity;
-        follow = follow - transform.localPosition;
+        Vector3 randomize = new Vector3((Random.value * 2) - 1, (Random.value * 2) - 1, (Random.value * 2) - 1);
+        randomize.Normalize();
+
+        // Convert flockVelocity and the boid's velocity to Vector3 before subtraction
+        Vector3 flockCenter = boidController.flockCenter - transform.position;
+        Vector3 boidVelocity = new Vector3(rb.velocity.x, rb.velocity.y, 0f);
+        Vector3 flockVelocity = boidController.flockVelocity - boidVelocity;
+        Vector3 follow = chasee.transform.position - transform.position;
 
         return (flockCenter + flockVelocity + follow * 2 + randomize * randomness);
     }
+
+
 
     public void SetController(GameObject theController)
     {
