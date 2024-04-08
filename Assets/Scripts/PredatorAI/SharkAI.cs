@@ -93,14 +93,7 @@ public class SharkAI : MonoBehaviour
                 break;
         }
 
-        if (currentState == SharkState.Patrol || currentState == SharkState.Chase)
-        {
-            sharkAnimator.SetBool("IsSwimming", true);
-        }
-        else
-        {
-            sharkAnimator.SetBool("IsSwimming", false);
-        }
+        sharkAnimator.SetBool("IsSwimming", currentState != SharkState.Attack);
 
         CheckTransitions();
 
@@ -195,8 +188,8 @@ public class SharkAI : MonoBehaviour
 
             // Activate the bite animation UI and play the animation
             biteAnimationUI.gameObject.SetActive(true);
-            biteAnimationUI.GetComponent<Animator>().SetTrigger("PlayBiteAnimation");
-            StartCoroutine(HideBiteAnimationUI(0.6f));
+            biteAnimationUI.GetComponent<Animator>().SetTrigger("TriggerBite");
+            StartCoroutine(HideBiteAnimationUI(0.7f));
 
             //Blood animation
             StartCoroutine(ShowAndFadeOutBlood());
@@ -212,6 +205,7 @@ public class SharkAI : MonoBehaviour
             if (playerHealth != null)
             {
                 playerHealth.TakeDamage(20);
+       
             }
 
             // Reset to chase after attacking
