@@ -19,6 +19,7 @@ public class GameOverHandler : MonoBehaviour
     public GameObject objective;
     public int spawnRate = 3;
     public int spawnTime = 15;
+    private GameObject[] otherobjs;
 
     void Start()
     {
@@ -57,7 +58,14 @@ public class GameOverHandler : MonoBehaviour
                 GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-20f, 20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
             }
         }
-        print(objectivesCollected);
+        otherobjs = GameObject.FindGameObjectsWithTag("Objective");
+        foreach (GameObject objective in otherobjs)
+        {
+            if (Mathf.Abs(objective.GetComponent<Transform>().position.x - this.transform.position.x) < 2.0f
+               && Mathf.Abs(objective.GetComponent<Transform>().position.y - this.transform.position.y) < 2.0f) {
+               SpawnObj();
+            }
+        }
     }
 
     private void UpdateTimerUI()
