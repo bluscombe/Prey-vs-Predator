@@ -11,6 +11,8 @@ public class FishMovement : MonoBehaviour
     private float targetYRotation; // Target rotation around the Y-axis
     public float rotationSpeed = 5.0f; // Speed of rotation
 
+    public BoidController boidController;
+
     public Slider healthBar;
     public Slider staminaBar;
     public Slider invisibilityTimerSlider;
@@ -47,6 +49,12 @@ public class FishMovement : MonoBehaviour
 
         healthBar.value = maxHealth;
         staminaBar.value = maxStamina;
+
+        // If not assigned, try to find the BoidController in the scene
+        if (boidController == null)
+        {
+            boidController = FindObjectOfType<BoidController>();
+        }
     }
 
     // Update is called once per frame
@@ -94,6 +102,12 @@ public class FishMovement : MonoBehaviour
         else
         {
             RecoverStamina(Time.deltaTime * staminaRecoveryRate);
+        }
+
+        // Apply the fish's current position to the chasee object
+        if (boidController != null && boidController.chasee != null)
+        {
+            boidController.chasee.transform.position = this.transform.position;
         }
 
         healthBar.value = health;
