@@ -42,7 +42,6 @@ public class GameOverHandler : MonoBehaviour
 
     private void SpawnObj()
     {
-        print("obj spawned");
         if(player.GetComponent<Transform>().position.x <= 0 && player.GetComponent<Transform>().position.x > -30){
             for(int i = 0; i < spawnRate; i++){
                 GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(20f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
