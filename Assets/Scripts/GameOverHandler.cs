@@ -85,8 +85,8 @@ public class GameOverHandler : MonoBehaviour
 
     private void WinGame()
     {
-        print("gg");
         gameIsOver = true;
+        MySceneManager.loadWinScene();
         //winScreen.SetActive(true);
         // Optionally, stop the timer or implement additional win game logic here
     }

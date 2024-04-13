@@ -14,6 +14,15 @@ public class MySceneManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+    }
+
+    public static void loadMainMenu()
+    {
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public static void loadWinScene()
+    {
+        SceneManager.LoadScene("Win Scene");
     }
 }
