@@ -6640,8 +6640,8 @@ MonoBehaviour:
   fadeDuration: 2
   totalObjectives: 10
   objective: {fileID: 2872111550721667223, guid: de26b738d656d4527a235b08eff568e1, type: 3}
-  spawnRate: 30
-  spawnTime: 1
+  spawnRate: 5
+  spawnTime: 10
 --- !u!4 &887589367
 Transform:
   m_ObjectHideFlags: 0
