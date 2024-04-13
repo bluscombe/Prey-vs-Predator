@@ -86,7 +86,8 @@ public class GameOverHandler : MonoBehaviour
     private void WinGame()
     {
         gameIsOver = true;
-        MySceneManager.loadWinScene();
+        Debug.Log("gg");
+        SceneManager.LoadScene("Win Scene");
         //winScreen.SetActive(true);
         // Optionally, stop the timer or implement additional win game logic here
     }
@@ -113,6 +114,6 @@ public class GameOverHandler : MonoBehaviour
         }
 
         fadeImage.color = Color.black;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
