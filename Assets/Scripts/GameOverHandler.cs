@@ -34,7 +34,7 @@ public class GameOverHandler : MonoBehaviour
     {
         if (!gameIsOver)
         {
-            objCollectedText.text = $"{objectivesCollected}/{totalObjectives}";
+            //objCollectedText.text = $"{objectivesCollected}/{totalObjectives}";
             UpdateTimerUI();
             CheckForWinCondition();
         }
