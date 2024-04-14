@@ -118,7 +118,7 @@ public class FishMovement : MonoBehaviour
             RecoverStamina(Time.deltaTime * staminaRecoveryRate);
         }
 
-        //// Apply the fish's current position to the chasee object
+        // Apply the fish's current position to the chasee object
         //if (boidController != null && boidController.chasee != null)
         //{
         //    boidController.chasee.transform.position = this.transform.position;
@@ -208,7 +208,7 @@ public class FishMovement : MonoBehaviour
     public void TakeDamage(float amount)
     {
         health = health - amount;
-        Debug.Log("Damage taken: " + amount + ". Current health: " + health);
+        //Debug.Log("Damage taken: " + amount + ". Current health: " + health);
 
         if (health <= 0)
         {
