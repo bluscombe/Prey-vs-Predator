@@ -15,7 +15,7 @@ public class GameOverHandler : MonoBehaviour
     private bool gameIsOver = false;
     //public GameObject winScreen; // Assign in the Inspector
     public static int objectivesCollected = 0; // Tracks how many objectives the player has collected
-    public int totalObjectives = 5; // Set this to the total number of objectives in your level
+    public int totalObjectives = 10; // Set this to the total number of objectives in your level
     public GameObject objective;
     public int spawnRate = 3;
     public int spawnTime = 15;
@@ -25,9 +25,9 @@ public class GameOverHandler : MonoBehaviour
     {
         // Initialize the timer and hide the win screen at start
         startTime = Time.time;
-        //winScreen.SetActive(false);
-
         InvokeRepeating("SpawnObj", 0, spawnTime);
+        objectivesCollected = 0;
+        gameIsOver = false;
     }
 
     void Update()
