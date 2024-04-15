@@ -15462,7 +15462,7 @@ MonoBehaviour:
   moveSpeed: 2
   fleeSpeed: 5
   moveBounds: {x: 32, y: 5}
-  sharkTransform: {fileID: 0}
+  sharkTransform: {fileID: 4275794051450428473}
   detectionRadius: 10
 --- !u!4 &1683002661
 Transform:
@@ -15515,7 +15515,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -256.70007, y: 134.4}
+  m_AnchoredPosition: {x: -256.70004, y: 134.4}
   m_SizeDelta: {x: -640, y: -360}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1730768373
@@ -16998,6 +16998,11 @@ MonoBehaviour:
   precomputeOutline: 0
   bakeKeys: []
   bakeValues: []
+--- !u!4 &4275794051450428473 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7395357859493045649, guid: f296399cd8ecf4bba8ed74ff2a74bc34, type: 3}
+  m_PrefabInstance: {fileID: 6770945175454202277}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6770945175454202277
 PrefabInstance:
   m_ObjectHideFlags: 0
