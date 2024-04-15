@@ -23,6 +23,7 @@ public class SharkAI : MonoBehaviour
     public RectTransform bloodAnimationUI;
 
     private Animator sharkAnimator;
+    [SerializeField] private AudioClip biteSoundClip;
 
     [Header("Sight")]
     public float fieldOfViewAngle = 110f; // Angle for the field of view
@@ -169,6 +170,7 @@ public class SharkAI : MonoBehaviour
         // Check if the shark can attack based on cooldown and distance to the player
         if (attackTimer <= 0 && distanceToPlayer <= attackRadius)
         {
+            SFXManager.instance.PlaySFXClip(biteSoundClip, transform, 1f);
 
             // Convert world position of the shark bite to screen position
             Vector2 screenPoint = Camera.main.WorldToScreenPoint(player.position);
