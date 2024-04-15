@@ -30,7 +30,6 @@ public class PauseMenu : MonoBehaviour
     public void mainMenu(int sceneID)
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneID);
     }
 
     private IEnumerator PopButton()

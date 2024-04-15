@@ -15,6 +15,10 @@ public class Fade : MonoBehaviour
         animator.SetTrigger("FadeOut");
     }
 
+    public void mainOut(){
+        animator.SetTrigger("MainOut");
+    }
+
     public void fadeOutToGame(){
         SceneManager.LoadScene("Game Scene");
     }
@@ -25,5 +29,9 @@ public class Fade : MonoBehaviour
 
     public void winOut(){
         animator.SetTrigger("WinOut");
+    }
+
+    public void fadeOutToMain(){
+        SceneManager.LoadScene("Main Menu");
     }
 }
