@@ -18,4 +18,12 @@ public class Fade : MonoBehaviour
     public void fadeOutToGame(){
         SceneManager.LoadScene("Game Scene");
     }
+
+    public void fadeOutToWin(){
+        SceneManager.LoadScene("Win Scene");
+    }
+
+    public void winOut(){
+        animator.SetTrigger("WinOut");
+    }
 }

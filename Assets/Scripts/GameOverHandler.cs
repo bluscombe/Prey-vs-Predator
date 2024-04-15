@@ -20,6 +20,8 @@ public class GameOverHandler : MonoBehaviour
     public int spawnRate = 3;
     public int spawnTime = 15;
     private GameObject[] otherobjs;
+    public Slider objSlider;
+    public Fade fade;
 
     void Start()
     {
@@ -27,6 +29,9 @@ public class GameOverHandler : MonoBehaviour
         startTime = Time.time;
         InvokeRepeating("SpawnObj", 0, spawnTime);
         objectivesCollected = 0;
+        objSlider.value = 0;
+        objSlider.minValue = 0;
+        objSlider.maxValue = totalObjectives;
         gameIsOver = false;
     }
 
@@ -35,6 +40,7 @@ public class GameOverHandler : MonoBehaviour
         if (!gameIsOver)
         {
             //objCollectedText.text = $"{objectivesCollected}/{totalObjectives}";
+            objSlider.value = objectivesCollected;
             UpdateTimerUI();
             CheckForWinCondition();
         }
@@ -57,14 +63,15 @@ public class GameOverHandler : MonoBehaviour
                 GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-20f, 20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
             }
         }
-        otherobjs = GameObject.FindGameObjectsWithTag("Objective");
+        // current spawner is too inefficient and is crashing the game
+        /*otherobjs = GameObject.FindGameObjectsWithTag("Objective");
         foreach (GameObject objective in otherobjs)
         {
             if (Mathf.Abs(objective.GetComponent<Transform>().position.x - this.transform.position.x) < 2.0f
                && Mathf.Abs(objective.GetComponent<Transform>().position.y - this.transform.position.y) < 2.0f) {
                SpawnObj();
             }
-        }
+        }*/
     }
 
     private void UpdateTimerUI()
@@ -86,8 +93,7 @@ public class GameOverHandler : MonoBehaviour
     private void WinGame()
     {
         gameIsOver = true;
-        Debug.Log("gg");
-        SceneManager.LoadScene("Win Scene");
+        fade.winOut();
         //winScreen.SetActive(true);
         // Optionally, stop the timer or implement additional win game logic here
     }
