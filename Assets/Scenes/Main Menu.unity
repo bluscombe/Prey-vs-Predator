@@ -818,7 +818,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1033431656}
         m_TargetAssemblyTypeName: Fade, Assembly-CSharp
-        m_MethodName: fadeOut
+        m_MethodName: tutlOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

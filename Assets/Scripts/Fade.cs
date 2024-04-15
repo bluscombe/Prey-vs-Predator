@@ -19,6 +19,10 @@ public class Fade : MonoBehaviour
         animator.SetTrigger("MainOut");
     }
 
+    public void tutlOut(){
+        animator.SetTrigger("TutlOut");
+    }
+
     public void fadeOutToGame(){
         SceneManager.LoadScene("Game Scene");
     }
@@ -33,5 +37,9 @@ public class Fade : MonoBehaviour
 
     public void fadeOutToMain(){
         SceneManager.LoadScene("Main Menu");
+    }
+
+    public void fadeOutToTutorial(){
+        SceneManager.LoadScene("Tutorial Scene");
     }
 }

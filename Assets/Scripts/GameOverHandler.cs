@@ -26,6 +26,7 @@ public class GameOverHandler : MonoBehaviour
     void Start()
     {
         // Initialize the timer and hide the win screen at start
+        fade.fadeIn();
         startTime = Time.time;
         InvokeRepeating("SpawnObj", 0, spawnTime);
         objectivesCollected = 0;

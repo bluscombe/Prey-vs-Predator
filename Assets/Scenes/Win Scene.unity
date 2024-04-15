@@ -217,6 +217,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
+--- !u!114 &710888882 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3744447847376678320, guid: 4cb2b154ac92aae488e38e75793ce471, type: 3}
+  m_PrefabInstance: {fileID: 1172535923}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77e51d6f3dc0dc640a193018f2caa160, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &880486021
 GameObject:
   m_ObjectHideFlags: 0
@@ -537,9 +548,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1174466518}
-        m_TargetAssemblyTypeName: RetryButton, Assembly-CSharp
-        m_MethodName: restartGame
+      - m_Target: {fileID: 710888882}
+        m_TargetAssemblyTypeName: Fade, Assembly-CSharp
+        m_MethodName: fadeOut
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
