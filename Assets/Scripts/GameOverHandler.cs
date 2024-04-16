@@ -22,7 +22,7 @@ public class GameOverHandler : MonoBehaviour
     private GameObject[] otherobjs;
     public Slider objSlider;
     public Fade fade;
-    public int totalSpawned;
+    public static int totalSpawned;
     public int spawnLimit = 15;
 
     void Start()
@@ -100,7 +100,6 @@ public class GameOverHandler : MonoBehaviour
 
     private void WinGame()
     {
-        print("gg");
         gameIsOver = true;
         fade.winOut();
         //winScreen.SetActive(true);
