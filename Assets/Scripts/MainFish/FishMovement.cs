@@ -109,6 +109,11 @@ public class FishMovement : MonoBehaviour
         Quaternion targetRotation = Quaternion.Euler(0, targetYRotation, verticalInput * 45);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
+        // Update Animator parameters based on input
+        fishAnimator.SetBool("isMovingLeft", horizontalInput < 0);
+        fishAnimator.SetBool("isMovingRight", horizontalInput > 0);
+        fishAnimator.SetBool("isSprinting", isSprinting);
+
         if (isSprinting && (horizontalInput != 0 || verticalInput != 0))
         {
             UseStamina(Time.deltaTime * sprintStaminaUseRate);

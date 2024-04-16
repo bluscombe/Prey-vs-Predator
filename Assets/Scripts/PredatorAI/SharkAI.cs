@@ -198,6 +198,8 @@ public class SharkAI : MonoBehaviour
             // Slow down the shark for 2 seconds to a specified slower speed
             StartCoroutine(SlowDown(2f, speed * 0.5f)); // Example: slow down to half speed for 2 seconds
 
+            sharkAnimator.SetBool("isBiting", true);
+
             // Assuming the player's FishMovement script is attached to the same GameObject as the player transform.
             FishMovement playerHealth = player.GetComponent<FishMovement>();
             if (playerHealth != null)
@@ -214,6 +216,7 @@ public class SharkAI : MonoBehaviour
         }
         else if (distanceToPlayer > attackRadius)
         {
+            sharkAnimator.SetBool("isBiting", false);
             // If the shark is too far away after attacking, consider switching back to chase or patrol state
             currentState = SharkState.Chase; // Or Patrol, depending on your game logic
         }
