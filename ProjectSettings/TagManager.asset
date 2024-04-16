@@ -6,6 +6,8 @@ TagManager:
   tags:
   - ObjectiveItem
   - Objective
+  - InvisPill
+  - UnlimitedPill
   layers:
   - Default
   - TransparentFX

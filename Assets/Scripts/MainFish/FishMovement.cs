@@ -18,6 +18,7 @@ public class FishMovement : MonoBehaviour
     public Slider healthBar;
     public Slider staminaBar;
     public Slider invisibilityTimerSlider;
+    public Slider unlimitedSlider;
     public float maxHealth = 100f;
     public float health;
     public float maxStamina = 100f;
@@ -61,7 +62,7 @@ public class FishMovement : MonoBehaviour
         staminaBar.value = maxStamina;
         hungerSlider.value = hunger;
 
-        //// If not assigned, try to find the BoidController in the scene
+        // If not assigned, try to find the BoidController in the scene
         //if (boidController == null)
         //{
         //    boidController = FindObjectOfType<BoidController>();
@@ -101,7 +102,7 @@ public class FishMovement : MonoBehaviour
         pos += new Vector3(horizontalInput, verticalInput, 0) * currentSpeed * Time.deltaTime;
 
 
-        //// Clamp the position to keep the fish within screen bounds
+        // Clamp the position to keep the fish within screen bounds
         //pos.x = Mathf.Clamp(pos.x, -screenBounds.x, screenBounds.x);
         //pos.y = Mathf.Clamp(pos.y, -screenBounds.y, screenBounds.y);
 
@@ -146,16 +147,7 @@ public class FishMovement : MonoBehaviour
         //staminaBar.value = stamina;
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("ObjectiveItem"))
-        {
-            ApplyInvisibilityPowerUp();
-            Destroy(other.gameObject);
-        }
-    }
-
-    void ApplyInvisibilityPowerUp()
+    public void ApplyInvisibilityPowerUp()
     {
         StartCoroutine(BecomeInvisible(10));
     }
@@ -182,10 +174,32 @@ public class FishMovement : MonoBehaviour
         invisibilityTimerSlider.gameObject.SetActive(false); // Disable the slider when invisibility ends
     }
 
+    public void ApplyUnlimitedPowerUp()
+    {
+        StartCoroutine(BecomeUnlimited(10));
+    }
+
+    IEnumerator BecomeUnlimited(float duration)
+    {
+        float endTime = Time.time + duration;
+
+        unlimitedSlider.gameObject.SetActive(true); // Activate the slider when invisibility starts
+        unlimitedSlider.maxValue = duration;
+        unlimitedSlider.value = duration; // Initialize the slider value to full duration
+
+        // Countdown the duration of the invisibility
+        while (Time.time < endTime)
+        {
+            unlimitedSlider.value = endTime - Time.time; // Update the slider value to represent the remaining time
+            yield return null;
+        }
+
+        unlimitedSlider.gameObject.SetActive(false); // Disable the slider when invisibility ends
+    }
 
     void SetTransparency(float alpha)
     {
-        foreach (var renderer in GetComponentsInChildren<Renderer>())
+        foreach (var renderer in GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             foreach (var material in renderer.materials)
             {
