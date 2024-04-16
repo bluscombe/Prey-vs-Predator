@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 243635055}
   - component: {fileID: 243635057}
   m_Layer: 5
-  m_Name: winScreenDark
+  m_Name: loseScreenBright
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 5b8a52981b87e464594c498af1775e21, type: 3}
+  m_Texture: {fileID: 2800000, guid: 182f808b0a05cf949bcac12e7f710563, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0
@@ -240,7 +240,7 @@ GameObject:
   - component: {fileID: 880486024}
   - component: {fileID: 880486023}
   m_Layer: 5
-  m_Name: winScreenBright
+  m_Name: loseScreenDark
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,7 +286,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Texture: {fileID: 2800000, guid: 96a8a287877ce534fb15e6655a12edbb, type: 3}
+  m_Texture: {fileID: 2800000, guid: efea0fc7b5ca1d044b62c2033a88860c, type: 3}
   m_UVRect:
     serializedVersion: 2
     x: 0

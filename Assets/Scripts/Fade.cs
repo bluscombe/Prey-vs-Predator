@@ -23,6 +23,14 @@ public class Fade : MonoBehaviour
         animator.SetTrigger("TutlOut");
     }
 
+    public void winOut(){
+        animator.SetTrigger("WinOut");
+    }
+
+    public void loseOut(){
+        animator.SetTrigger("LoseOut");
+    }
+
     public void fadeOutToGame(){
         SceneManager.LoadScene("Game Scene");
     }
@@ -31,15 +39,15 @@ public class Fade : MonoBehaviour
         SceneManager.LoadScene("Win Scene");
     }
 
-    public void winOut(){
-        animator.SetTrigger("WinOut");
-    }
-
     public void fadeOutToMain(){
         SceneManager.LoadScene("Main Menu");
     }
 
     public void fadeOutToTutorial(){
         SceneManager.LoadScene("Tutorial Scene");
+    }
+
+    public void fadeOutToLose(){
+        SceneManager.LoadScene("Lose Scene");
     }
 }

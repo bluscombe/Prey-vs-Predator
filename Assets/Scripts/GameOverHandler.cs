@@ -22,13 +22,19 @@ public class GameOverHandler : MonoBehaviour
     private GameObject[] otherobjs;
     public Slider objSlider;
     public Fade fade;
+    private int totalSpawned;
+    public int spawnLimit = 15;
 
     void Start()
     {
         // Initialize the timer and hide the win screen at start
         fade.fadeIn();
         startTime = Time.time;
+        totalSpawned = 0;
         InvokeRepeating("SpawnObj", 0, spawnTime);
+        if(totalSpawned > spawnLimit){
+            CancelInvoke();
+        }
         objectivesCollected = 0;
         objSlider.value = 0;
         objSlider.minValue = 0;
@@ -64,6 +70,7 @@ public class GameOverHandler : MonoBehaviour
                 GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-20f, 20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
             }
         }
+        totalSpawned += spawnRate;
         // current spawner is too inefficient and is crashing the game
         /*otherobjs = GameObject.FindGameObjectsWithTag("Objective");
         foreach (GameObject objective in otherobjs)
@@ -93,6 +100,7 @@ public class GameOverHandler : MonoBehaviour
 
     private void WinGame()
     {
+        print("gg");
         gameIsOver = true;
         fade.winOut();
         //winScreen.SetActive(true);
@@ -104,11 +112,12 @@ public class GameOverHandler : MonoBehaviour
         if (!isFading && !gameIsOver)
         {
             gameIsOver = true;
-            StartCoroutine(FadeToBlackCoroutine());
+            fade.loseOut();
+            //StartCoroutine(FadeToBlackCoroutine());
         }
     }
 
-    private IEnumerator FadeToBlackCoroutine()
+    /*private IEnumerator FadeToBlackCoroutine()
     {
         isFading = true;
         float timer = 0;
@@ -122,5 +131,5 @@ public class GameOverHandler : MonoBehaviour
 
         fadeImage.color = Color.black;
         //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
+    }*/
 }
