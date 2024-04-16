@@ -32,9 +32,6 @@ public class GameOverHandler : MonoBehaviour
         startTime = Time.time;
         totalSpawned = 0;
         InvokeRepeating("SpawnObj", 0, spawnTime);
-        if(totalSpawned > spawnLimit){
-            CancelInvoke();
-        }
         objectivesCollected = 0;
         objSlider.value = 0;
         objSlider.minValue = 0;
@@ -55,22 +52,24 @@ public class GameOverHandler : MonoBehaviour
 
     private void SpawnObj()
     {
-        if(player.GetComponent<Transform>().position.x <= 0 && player.GetComponent<Transform>().position.x > -30){
-            for(int i = 0; i < spawnRate; i++){
-                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(20f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+        if(totalSpawned <= spawnLimit){
+            if(player.GetComponent<Transform>().position.x <= 0 && player.GetComponent<Transform>().position.x > -30){
+                for(int i = 0; i < spawnRate; i++){
+                    GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(20f, 65f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+                }
             }
-        }
-        else if(player.GetComponent<Transform>().position.x > 0 && player.GetComponent<Transform>().position.x < 30){
-            for(int i = 0; i < spawnRate; i++){
-                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, -20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
-             }
-        }
-        else{
-            for(int i = 0; i < spawnRate; i++){
-                GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-20f, 20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+            else if(player.GetComponent<Transform>().position.x > 0 && player.GetComponent<Transform>().position.x < 30){
+                for(int i = 0; i < spawnRate; i++){
+                    GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-65f, -20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+                }
             }
+            else{
+                for(int i = 0; i < spawnRate; i++){
+                    GameObject newObjective = Instantiate(objective, new Vector3(Random.Range(-20f, 20f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+                }
+            }
+            totalSpawned += spawnRate;
         }
-        totalSpawned += spawnRate;
         // current spawner is too inefficient and is crashing the game
         /*otherobjs = GameObject.FindGameObjectsWithTag("Objective");
         foreach (GameObject objective in otherobjs)
