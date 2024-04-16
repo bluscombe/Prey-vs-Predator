@@ -3360,7 +3360,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 194.99998, y: -281.00003}
+  m_AnchoredPosition: {x: 199, y: -289}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &1030456341
@@ -3396,7 +3396,11 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Collect food to win! Avoid the shark!\n\n        be careful not to starve!"
+  m_Text: '    Collect food to win! Use power-ups!
+
+
+    Avoid the shark! be careful
+    not to starve!'
 --- !u!222 &1030456342
 CanvasRenderer:
   m_ObjectHideFlags: 0
