@@ -90,7 +90,7 @@ public class SharkAI : MonoBehaviour
                 break;
         }
 
-        sharkAnimator.SetBool("IsSwimming", currentState != SharkState.Attack);
+        //sharkAnimator.SetBool("IsSwimming", currentState != SharkState.Attack);
 
         CheckTransitions();
 

@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class MainMenuButtons : MonoBehaviour
 {
+
+    public new AudioSource audio;
+
     public void loadGameScene()
     {
         SceneManager.LoadScene("Game Scene");
@@ -14,5 +17,10 @@ public class MainMenuButtons : MonoBehaviour
     {
         Application.Quit();
         Debug.Log("quitting");
+    }
+
+    public void playButton()
+    {
+        audio.Play();
     }
 }

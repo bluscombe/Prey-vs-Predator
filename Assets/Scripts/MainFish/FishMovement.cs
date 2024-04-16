@@ -13,6 +13,8 @@ public class FishMovement : MonoBehaviour
 
     public BoidController boidController;
 
+    private Animator fishAnimator;
+
     public Slider healthBar;
     public Slider staminaBar;
     public Slider invisibilityTimerSlider;
@@ -69,6 +71,8 @@ public class FishMovement : MonoBehaviour
         //    this.enabled = false; // Disable script to prevent further errors
         //    return;
         //}
+
+        fishAnimator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -85,8 +89,8 @@ public class FishMovement : MonoBehaviour
         float currentSpeed = isSprinting && stamina > 0 ? sprintSpeed : speed; // Use sprint speed if sprinting and stamina is available
 
         // Move the fish based on player input and speed
-        pos.x += horizontalInput * currentSpeed * Time.deltaTime;
-        pos.y += verticalInput * currentSpeed * Time.deltaTime;
+        pos += new Vector3(horizontalInput, verticalInput, 0) * currentSpeed * Time.deltaTime;
+
 
         //// Clamp the position to keep the fish within screen bounds
         //pos.x = Mathf.Clamp(pos.x, -screenBounds.x, screenBounds.x);
@@ -96,17 +100,13 @@ public class FishMovement : MonoBehaviour
         transform.position = pos;
 
         // Determine target Y rotation based on input direction
-        if (horizontalInput > 0)
+        if (horizontalInput != 0)
         {
-            targetYRotation = 180; // Rotate to face right
-        }
-        else if (horizontalInput < 0)
-        {
-            targetYRotation = 0; // Rotate to face left
+            targetYRotation = horizontalInput > 0 ? 0 : 180;  // Flip the rotation degrees
         }
 
         // Gradually rotate the fish around the Y-axis
-        Quaternion targetRotation = Quaternion.Euler(0, targetYRotation, -verticalInput * 45);
+        Quaternion targetRotation = Quaternion.Euler(0, targetYRotation, verticalInput * 45);
         transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
         if (isSprinting && (horizontalInput != 0 || verticalInput != 0))
