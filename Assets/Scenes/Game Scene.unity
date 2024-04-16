@@ -6186,7 +6186,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8301887, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 1, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -16895,7 +16895,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -5.4000015, y: 2.3}
+  m_AnchoredPosition: {x: -5.4000015, y: 13.2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2001868903
@@ -16911,14 +16911,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.8303951, g: 0.8490566, b: 0, a: 1}
+  m_Color: {r: 0.8303951, g: 0.4745098, b: 0, a: 1}
   m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1759d6393d67a3c4abe987ea7e3f6f4b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ee92f94c0d54af749af7a38f77ef66a0, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17740,6 +17740,10 @@ PrefabInstance:
       propertyPath: staminaBar
       value: 
       objectReference: {fileID: 799580602}
+    - target: {fileID: 5810455062244251047, guid: a2788104608864c8da5b17a39316fb9f, type: 3}
+      propertyPath: hungerSlider
+      value: 
+      objectReference: {fileID: 18097823}
     - target: {fileID: 5810455062244251047, guid: a2788104608864c8da5b17a39316fb9f, type: 3}
       propertyPath: playerCamera
       value: 
