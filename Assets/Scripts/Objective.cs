@@ -38,6 +38,7 @@ public class Objective : MonoBehaviour
         if (other.gameObject.CompareTag("Player") && !isCollected) // Make sure the collider is tagged with "Player"
         {
             isCollected = true;
+            GameOverHandler.totalSpawned --;
             GameOverHandler.objectivesCollected++; // Notify the GameOverHandler that an objective has been collected
         }
     }

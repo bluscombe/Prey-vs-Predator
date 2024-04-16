@@ -22,7 +22,7 @@ public class GameOverHandler : MonoBehaviour
     private GameObject[] otherobjs;
     public Slider objSlider;
     public Fade fade;
-    private int totalSpawned;
+    public int totalSpawned;
     public int spawnLimit = 15;
 
     void Start()
