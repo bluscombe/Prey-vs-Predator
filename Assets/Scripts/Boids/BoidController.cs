@@ -1,84 +1,100 @@
-using UnityEngine;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 public class BoidController : MonoBehaviour
 {
-    public float minVelocity = 5;
-    public float maxVelocity = 20;
-    public float randomness = 1;
-    public int flockSize = 20;
-    public GameObject prefab;
-    public GameObject chasee;
+    [Header("Spawn Setup")]
+    [SerializeField] private BoidFlocking flockUnitPrefab;
+    [SerializeField] private int flockSize;
+    [SerializeField] private Vector3 spawnBounds;
 
-    public Vector3 flockCenter;
-    public Vector3 flockVelocity;
+    [Header("Speed Setup")]
+    [Range(0, 10)]
+    [SerializeField] private float _minSpeed;
+    public float minSpeed { get { return _minSpeed; } }
+    [Range(0, 10)]
+    [SerializeField] private float _maxSpeed;
+    public float maxSpeed { get { return _maxSpeed; } }
 
-    private GameObject[] boids;
 
-    void Start()
+    [Header("Detection Distances")]
+
+    [Range(0, 10)]
+    [SerializeField] private float _cohesionDistance;
+    public float cohesionDistance { get { return _cohesionDistance; } }
+
+    [Range(0, 10)]
+    [SerializeField] private float _avoidanceDistance;
+    public float avoidanceDistance { get { return _avoidanceDistance; } }
+
+    [Range(0, 10)]
+    [SerializeField] private float _aligementDistance;
+    public float aligementDistance { get { return _aligementDistance; } }
+
+    [Range(0, 10)]
+    [SerializeField] private float _obstacleDistance;
+    public float obstacleDistance { get { return _obstacleDistance; } }
+
+    [Range(0, 100)]
+    [SerializeField] private float _boundsDistance;
+    public float boundsDistance { get { return _boundsDistance; } }
+
+
+    [Header("Behaviour Weights")]
+
+    [Range(0, 10)]
+    [SerializeField] private float _cohesionWeight;
+    public float cohesionWeight { get { return _cohesionWeight; } }
+
+    [Range(0, 10)]
+    [SerializeField] private float _avoidanceWeight;
+    public float avoidanceWeight { get { return _avoidanceWeight; } }
+
+    [Range(0, 10)]
+    [SerializeField] private float _alignmentWeight;
+    public float alignmentWeight { get { return _alignmentWeight; } }
+
+    [Range(0, 10)]
+    [SerializeField] private float _boundsWeight;
+    public float boundsWeight { get { return _boundsWeight; } }
+
+    [Range(0, 100)]
+    [SerializeField] private float _obstacleWeight;
+    public float obstacleWeight { get { return _obstacleWeight; } }
+
+    public BoidFlocking[] allUnits { get; set; }
+
+    private void Start()
     {
-        boids = new GameObject[flockSize];
-        BoxCollider2D collider = GetComponent<BoxCollider2D>();
-        if (collider == null)
+        GenerateUnits();
+    }
+
+    private void Update()
+    {
+        for (int i = 0; i < allUnits.Length; i++)
         {
-            Debug.LogError("BoxCollider2D is not attached to " + gameObject.name);
-            return;
-        }
-
-        for (var i = 0; i < flockSize; i++)
-        {
-            Vector3 position = new Vector3(
-                Random.value * collider.bounds.size.x,
-                Random.value * collider.bounds.size.y,
-                0) - collider.bounds.extents;
-
-            position += transform.position; // Ensure the position is relative to the BoidController object
-
-            GameObject boid = Instantiate(prefab, position, Quaternion.identity) as GameObject;
-            if (boid == null)
-            {
-                Debug.LogError("Boid instantiation failed");
-                continue;
-            }
-
-            boid.transform.parent = transform;
-            boid.GetComponent<BoidFlocking>().SetController(gameObject);
-            boids[i] = boid;
-
-            Debug.Log("Spawned boid at: " + boid.transform.position);
-
+            allUnits[i].MoveUnit();
         }
     }
 
-
-    void Update()
+    private void GenerateUnits()
     {
-        Vector3 theCenter = Vector3.zero;
-        Vector3 theVelocity = Vector3.zero;
-
-        int realFlockSize = 0; // Keep track of non-null boids
-
-        foreach (GameObject boid in boids)
+        allUnits = new BoidFlocking[flockSize];
+        for (int i = 0; i < flockSize; i++)
         {
-            // Check if boid is not null before accessing its properties
-            if (boid != null)
-            {
-                theCenter += boid.transform.position;
-                Rigidbody2D rb = boid.GetComponent<Rigidbody2D>();
-                if (rb != null)
-                {
-                    theVelocity += (Vector3)rb.velocity;
-                    realFlockSize++; // Increment for each non-null boid
-                }
-            }
-        }
+            var randomVector = UnityEngine.Random.insideUnitSphere;
+            randomVector = new Vector3(randomVector.x * spawnBounds.x, randomVector.y * spawnBounds.y, randomVector.z * spawnBounds.z);
+            var spawnPosition = transform.position + randomVector;
 
-        // Avoid division by zero if realFlockSize is zero
-        if (realFlockSize > 0)
-        {
-            flockCenter = theCenter / realFlockSize;
-            flockVelocity = theVelocity / realFlockSize;
+            // Here we calculate the initial rotation facing the center or any other logic you define
+            var directionToCenter = (transform.position - spawnPosition).normalized;
+            var rotation = Quaternion.LookRotation(directionToCenter);
+
+            allUnits[i] = Instantiate(flockUnitPrefab, spawnPosition, rotation);
+            allUnits[i].AssignFlock(this);
+            allUnits[i].InitializeSpeed(UnityEngine.Random.Range(minSpeed, maxSpeed));
         }
     }
-
 }

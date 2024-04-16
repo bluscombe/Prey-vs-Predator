@@ -125,11 +125,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 67caeadf686674aa0b9a38da9474a160, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  alignmentWeight: 1
-  cohesionWeight: 1
-  separationWeight: 1
-  followWeight: 2
-  separationDistance: 1
+  FOVAngle: 150
+  smoothDamp: 1
+  obstacleMask:
+    serializedVersion: 2
+    m_Bits: 512
+  directionsToCheckWhenAvoidingObstacles:
+  - {x: 1, y: 0, z: 0}
+  - {x: -1, y: 0, z: 0}
+  - {x: 0, y: 1, z: 0}
+  - {x: 0, y: -1, z: 0}
 --- !u!50 &-8923676860372238393
 Rigidbody2D:
   serializedVersion: 4
@@ -150,4 +155,4 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 1
