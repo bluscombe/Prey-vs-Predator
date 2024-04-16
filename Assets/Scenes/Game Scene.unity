@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.33086565, g: 0.32427981, b: 0.2812807, a: 1}
+  m_IndirectSpecularColor: {r: 0.3308833, g: 0.32430318, b: 0.28130957, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -6092,7 +6092,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &421195773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7570,7 +7570,7 @@ MonoBehaviour:
   timerText: {fileID: 1235070210}
   objCollectedText: {fileID: 1133015256}
   fadeDuration: 2
-  totalObjectives: 1
+  totalObjectives: 3
   objective: {fileID: 2872111550721667223, guid: de26b738d656d4527a235b08eff568e1, type: 3}
   spawnRate: 3
   spawnTime: 3

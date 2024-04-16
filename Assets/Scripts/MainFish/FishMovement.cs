@@ -59,6 +59,7 @@ public class FishMovement : MonoBehaviour
 
         healthBar.value = maxHealth;
         staminaBar.value = maxStamina;
+        hungerSlider.value = hunger;
 
         //// If not assigned, try to find the BoidController in the scene
         //if (boidController == null)
@@ -134,6 +135,7 @@ public class FishMovement : MonoBehaviour
         if (hunger <= 0){
             Die();
         }
+        hungerSlider.value = hunger;
         // Apply the fish's current position to the chasee object
         //if (boidController != null && boidController.chasee != null)
         //{
