@@ -11,6 +11,8 @@ public class SchoolOfFish : MonoBehaviour
     public Vector2 moveBounds = new Vector2(32, 7);
     public Transform sharkTransform;
     public float detectionRadius = 10f;
+    public float zaxis;
+    public float scale = 0.08f;
 
     void Start()
     {
@@ -24,10 +26,10 @@ public class SchoolOfFish : MonoBehaviour
         {
             float xPosition = startPosition.x + (i % Mathf.Sqrt(numberOfFish)) * gridSpacing;
             float yPosition = startPosition.y + (i / Mathf.Sqrt(numberOfFish)) * gridSpacing;
-            Vector3 spawnPosition = new Vector3(xPosition, yPosition, -3);
+            Vector3 spawnPosition = new Vector3(xPosition, yPosition, zaxis);
 
             GameObject fish = Instantiate(fishPrefab, spawnPosition, Quaternion.identity);
-            fish.transform.localScale = new Vector3(0.08f, 0.08f, 0.08f); // Adjusted for uniform scaling
+            fish.transform.localScale = new Vector3(scale, scale, scale); // Adjusted for uniform scaling
             StartCoroutine(MoveFishToRandomPosition(fish));
         }
     }

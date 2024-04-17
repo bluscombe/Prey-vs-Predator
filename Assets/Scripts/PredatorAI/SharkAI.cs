@@ -62,7 +62,6 @@ public class SharkAI : MonoBehaviour
     {
         waitTime = startWaitTime;
         targetMoveSpot = GetRandomPosition();
-        damageEffect.color = new Color(1, 0, 0, 0); // Ensure the damage effect is invisible at start
         attackTimer = 0;
 
         // Initialize the Animator component
@@ -231,16 +230,13 @@ public class SharkAI : MonoBehaviour
             facingTimer += Time.deltaTime;
             if (facingTimer >= facingDuration)
             {
-                // Randomly decide whether to charge or not after facing
-                if (Random.value > 0.5f) // 50% chance to proceed with charge
-                {
-                    currentState = SharkState.Charge;
-                }
-                else
-                {
-                    currentState = SharkState.Chase; // Resume chasing without charging
-                }
+                currentState = SharkState.Charge;
+
                 facingTimer = 0; // Reset for next time
+            }
+            else
+            {
+                currentState = SharkState.Chase;
             }
         }
     }
@@ -250,7 +246,7 @@ public class SharkAI : MonoBehaviour
     {
         Vector3 dirToPlayer = (player.position - transform.position).normalized;
         float dotProduct = Vector3.Dot(transform.forward, dirToPlayer);
-        return dotProduct > 0.95; // Adjust this threshold as necessary
+        return dotProduct > 0.90; // Adjust this threshold as necessary
     }
 
     void ChargePlayer()

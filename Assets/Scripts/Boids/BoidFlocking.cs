@@ -47,21 +47,21 @@ public class BoidFlocking : MonoBehaviour
         var obstacleVector = CalculateObstacleVector() * assignedFlock.obstacleWeight;
 
         var moveVector = cohesionVector + avoidanceVector + alignmentVector + boundsVector + obstacleVector;
-        Debug.DrawLine(myTransform.position, myTransform.position + moveVector, Color.red, 1.0f);  
-        moveVector = Vector3.SmoothDamp(myTransform.forward, moveVector, ref currentVelocity, smoothDamp);
+        moveVector.z = 0; // Ensure movement is constrained to the XY plane.
+        moveVector = Vector3.SmoothDamp(myTransform.up, moveVector, ref currentVelocity, smoothDamp);
         moveVector = moveVector.normalized * speed;
+
         if (moveVector == Vector3.zero)
-            moveVector = transform.forward;
+            moveVector = myTransform.up;
 
-        // Constrain movement to the XZ plane
-        moveVector.y = 0;
-
-        // Rotate towards the movement vector using only 2D rotation
-        float angle = Mathf.Atan2(moveVector.x, moveVector.z) * Mathf.Rad2Deg;
-        myTransform.rotation = Quaternion.Euler(0, angle, 0);
+        // Rotate towards the movement vector using 2D rotation
+        float angle = Mathf.Atan2(moveVector.y, moveVector.x) * Mathf.Rad2Deg;
+        // Adjust rotation if your sprite's default orientation is off (e.g., sprite facing right by default)
+        myTransform.rotation = Quaternion.Euler(0, 0, angle - 45);
 
         myTransform.position += moveVector * Time.deltaTime;
     }
+
 
 
 
@@ -112,6 +112,7 @@ public class BoidFlocking : MonoBehaviour
         var cohesionVector = Vector3.zero;
         if (cohesionNeighbours.Count == 0)
             return Vector3.zero;
+
         int neighboursInFOV = 0;
         for (int i = 0; i < cohesionNeighbours.Count; i++)
         {
@@ -122,7 +123,11 @@ public class BoidFlocking : MonoBehaviour
             }
         }
 
+        if (neighboursInFOV == 0)
+            return Vector3.zero;
+
         cohesionVector /= neighboursInFOV;
+        cohesionVector.z = 0; // Ensure vector is 2D
         cohesionVector -= myTransform.position;
         cohesionVector = cohesionVector.normalized;
         return cohesionVector;
