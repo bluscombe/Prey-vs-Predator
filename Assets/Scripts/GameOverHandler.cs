@@ -24,6 +24,9 @@ public class GameOverHandler : MonoBehaviour
     public Fade fade;
     public static int totalSpawned;
     public int spawnLimit = 15;
+    public GameObject unlimitedPill;
+    public GameObject invisiblePill;
+    public int powerSpawnTime = 60;
 
     void Start()
     {
@@ -32,6 +35,8 @@ public class GameOverHandler : MonoBehaviour
         startTime = Time.time;
         totalSpawned = 0;
         InvokeRepeating("SpawnObj", 0, spawnTime);
+        InvokeRepeating("SpawnUnlimitedPowerup", 0, powerSpawnTime);
+        InvokeRepeating("SpawnInvisiblePowerup", 0, powerSpawnTime);
         objectivesCollected = 0;
         objSlider.value = 0;
         objSlider.minValue = 0;
@@ -47,6 +52,22 @@ public class GameOverHandler : MonoBehaviour
             objSlider.value = objectivesCollected;
             UpdateTimerUI();
             CheckForWinCondition();
+        }
+    }
+
+    private void SpawnUnlimitedPowerup()
+    {
+        if(GameObject.FindGameObjectsWithTag("UnlimitedPill").Length == 0){
+            print("unlimitedpill spawned");
+            GameObject newObjective = Instantiate(unlimitedPill, new Vector3(Random.Range(-50f, 50f), Random.Range(-11f, 11f), -3), Quaternion.identity);
+        }
+    }
+
+    private void SpawnInvisiblePowerup()
+    {
+        if(GameObject.FindGameObjectsWithTag("InvisPill").Length == 0){
+            print("invispill spawned");
+            GameObject newObjective = Instantiate(invisiblePill, new Vector3(Random.Range(-50f, 50f), Random.Range(-11f, 11f), -3), Quaternion.identity);
         }
     }
 
