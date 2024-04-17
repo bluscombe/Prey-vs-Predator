@@ -33,5 +33,7 @@ public class SFXManager : MonoBehaviour
         audioSource.Play();
 
         float clipLength = audioSource.clip.length;
+
+        Destroy(audioSource.gameObject, audioSource.clip.length);
     }
 }
