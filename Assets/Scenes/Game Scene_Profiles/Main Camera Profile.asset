@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a79b01ea5641d4aa6daa2e23605641, type: 3}
   m_Name: Bloom
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -36,7 +36,7 @@ MonoBehaviour:
     value: 1
   color:
     overrideState: 1
-    value: {r: 1, g: 0, b: 0, a: 1}
+    value: {r: 0.03203986, g: 0.64576346, b: 0.754717, a: 1}
   fastMode:
     overrideState: 1
     value: 1
@@ -62,6 +62,35 @@ MonoBehaviour:
   settings:
   - {fileID: -2082489193300974310}
   - {fileID: 8942344755191233715}
+  - {fileID: 3550097028448369121}
+--- !u!114 &3550097028448369121
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 556797029e73b2347956b6579e77e05b, type: 3}
+  m_Name: DepthOfField
+  m_EditorClassIdentifier: 
+  active: 1
+  enabled:
+    overrideState: 1
+    value: 1
+  focusDistance:
+    overrideState: 1
+    value: 10
+  aperture:
+    overrideState: 1
+    value: 10.6
+  focalLength:
+    overrideState: 1
+    value: 117
+  kernelSize:
+    overrideState: 1
+    value: 1
 --- !u!114 &8942344755191233715
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -74,7 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d65e486e4de6e5448a8fbb43dc8756a0, type: 3}
   m_Name: Grain
   m_EditorClassIdentifier: 
-  active: 0
+  active: 1
   enabled:
     overrideState: 1
     value: 1
@@ -83,10 +112,10 @@ MonoBehaviour:
     value: 1
   intensity:
     overrideState: 1
-    value: 0.2
+    value: 0.26
   size:
-    overrideState: 0
-    value: 1.31
+    overrideState: 1
+    value: 0.7
   lumContrib:
-    overrideState: 0
-    value: 0.416
+    overrideState: 1
+    value: 0.28
