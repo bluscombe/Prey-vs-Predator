@@ -25,12 +25,13 @@ public class FishMovement : MonoBehaviour
     public float stamina;
     public float staminaRecoveryRate = 5f; // Stamina recovered per second
     public float sprintStaminaUseRate = 20f; // Stamina used per second when moving
+    public int maxHunger = 100;
     public int startingHunger = 50;
     public static int hunger;
     public Slider hungerSlider;
     public int hungerDecreaseRate = 2; // how much hunger depletes per tick
     public int hungerDecreaseTick = 1; // how many seconds once every hunger decrease ticks
-    public static int hungerRecoverRate = 30;
+    public static int hungerRecoverRate = 20;
 
     public Camera playerCamera; // Assign this in the Inspector
     public float zoomOutFOV = 60f; // New FOV value for zoomed-out effect
@@ -88,6 +89,9 @@ public class FishMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(hunger >= maxHunger){
+            hunger = maxHunger;
+        }
         // Get current position
         Vector3 pos = transform.position;
 

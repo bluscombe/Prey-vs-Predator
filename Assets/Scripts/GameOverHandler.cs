@@ -58,7 +58,6 @@ public class GameOverHandler : MonoBehaviour
     private void SpawnUnlimitedPowerup()
     {
         if(GameObject.FindGameObjectsWithTag("UnlimitedPill").Length == 0){
-            print("unlimitedpill spawned");
             GameObject newObjective = Instantiate(unlimitedPill, new Vector3(Random.Range(-50f, 50f), Random.Range(-11f, 11f), -3), Quaternion.identity);
         }
     }
@@ -66,7 +65,6 @@ public class GameOverHandler : MonoBehaviour
     private void SpawnInvisiblePowerup()
     {
         if(GameObject.FindGameObjectsWithTag("InvisPill").Length == 0){
-            print("invispill spawned");
             GameObject newObjective = Instantiate(invisiblePill, new Vector3(Random.Range(-50f, 50f), Random.Range(-11f, 11f), -3), Quaternion.identity);
         }
     }
